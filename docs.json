@@ -1,87 +1,70 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "maple",
-  "name": "Azen",
+  "name": "Azen AI Memory Layer API",
   "colors": {
-    "primary": "#000000",
-    "light": "#22D3EE",
-    "dark": "#000000"
+    "primary": "#3B82F6",
+    "light": "#A3A3A3",
+    "dark": "#020617"
+  },
+  "background": { 
+    "color": {
+      "light": "#FFFFFF",
+      "dark": "#000000"
+    }
+  },
+  "fonts": {
+    "family": "Satoshi",
+    "weight": 450
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
-      {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
+    {
+      "tab": "Docs",
+      "groups": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "group": "Getting started",
+          "pages": [
+            "introduction",        
+            "quickstart"    
+          ]
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "group": "Concepts",
+          "pages": [
+            "concepts/memory-layer",   
+            "concepts/search"          
+          ]
+        }
+      ]
+    },
+    {
+      "tab": "API reference",
+      "groups": [
+        {
+          "group": "API",
+          "pages": [
+            "api-reference/introduction"
+          ]
         }
       ]
     }
+  ],
+    "global": {
+    "anchors": [
+      {
+        "anchor": "Dashboard",
+        "href": "https://console.azen.sh",
+        "icon": "window"
+      },
+      {
+        "anchor": "GitHub",
+        "href": "https://github.com/azen-sh",
+        "icon": "github"
+      }
+    ]
+  }
   },
   "logo": {
     "light": "/logo/light.svg",
@@ -91,7 +74,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:govindvashishat@gmail.com"
       }
     ],
     "primary": {
