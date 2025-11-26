@@ -101,7 +101,6 @@ paths:
   "/":
     get:
       summary: Health check
-      # root is public in your code (no middleware)
       security: []
       responses:
         "200":
@@ -149,10 +148,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-              example:
-                status: error
-                message: "Invalid request body"
-                code: 400
+              examples:
+                invalid_json:
+                  summary: Malformed JSON
+                  value:
+                    status: error
+                    message: "Request body must be valid JSON"
+                    code: 400
+                invalid_body:
+                  summary: JSON is valid but fails validation (Zod)
+                  value:
+                    status: error
+                    message: "Invalid request body"
+                    code: 400
+                    details:
+                      text:
+                        _errors:
+                          - "Required"
 
         "401":
           description: Missing API key
@@ -462,15 +474,28 @@ paths:
                     score: 0.92
 
         "400":
-          description: Invalid JSON or invalid search payload
+          description: Invalid JSON or invalid request body
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-              example:
-                status: error
-                message: "Invalid request body"
-                code: 400
+              examples:
+                invalid_json:
+                  summary: Malformed JSON
+                  value:
+                    status: error
+                    message: "Request body must be valid JSON"
+                    code: 400
+                invalid_body:
+                  summary: JSON is valid but fails validation (Zod)
+                  value:
+                    status: error
+                    message: "Invalid request body"
+                    code: 400
+                    details:
+                      text:
+                        _errors:
+                          - "Required"
 
         "401":
           description: Missing API key
