@@ -346,7 +346,7 @@ paths:
                   value:
                     status: success
                     memory: null
-                    message: "Memory not found"
+                    message: "Memory does not exist or was already deleted"
 
         "400":
           description: Invalid memory ID (not a UUID)
