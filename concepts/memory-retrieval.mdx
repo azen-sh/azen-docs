@@ -1,0 +1,220 @@
+---
+title: Memory retrieval
+description: How Azen retrieves relevant memories using semantic search and embeddings.
+---
+
+# Memory Retrieval
+
+Storing memory is only half of the system.
+
+Azen retrieves relevant memories based on semantic meaning rather than keyword matching.
+
+This page explains how memory retrieval works in Azen and how you should design around it.
+
+---
+
+## Retrieval in simple terms
+
+When you call:
+```http
+POST /memory/search
+```
+
+Azen performs semantic retrieval instead of keyword matching.
+
+Instead of asking:
+"Do any memories contain this exact text?"
+
+It asks:
+"Which memories mean something similar to this query?"
+
+This allows your application to recall relevant context even when the wording is different.
+
+---
+
+## How it works internally
+
+When you call the search endpoint, Azen does the following:
+
+1. Your query is converted into an embedding (vector).
+2. Azen compares that vector against stored memory vectors.
+3. It ranks memories by semantic similarity.
+4. You receive the most relevant results.
+
+For example:
+
+User query:
+"What drink does the user prefer?"
+
+Might retrieve:
+- "User prefers cold brew coffee"
+- "They usually order iced espresso"
+
+Even though the words don't match exactly.
+
+---
+
+## The search endpoint
+
+Your API exposes:
+```http
+POST /memory/search
+```
+
+Request body:
+```json
+{
+  "query": "User drink preferences",
+  "topK": 5
+}
+```
+
+Parameters:
+
+* `query` – A natural language query describing what you want to recall.
+* `topK` – Number of results to return (default: 5, max: 50).
+
+Response:
+```json
+{
+  "memories": [
+    {
+      "id": "uuid",
+      "content": "User prefers cold brew coffee",
+      "metadata": {
+        "dedupKey": "preference:coffee"
+      },
+      "createdAt": "2024-01-10T10:12:09Z",
+      "embedded": true
+    }
+  ],
+  "rawMatches": [
+    {
+      "id": "uuid::vector",
+      "score": 0.91,
+      "values": []
+    }
+  ]
+}
+```
+
+---
+
+## Using retrieval in a real AI flow
+
+Azen fits into your AI systems like this:
+
+1. User sends an input to your app or agent.
+2. Your backend calls `/memory/search` using the user's message.
+3. Azen returns relevant memories.
+4. Your backend injects those memories into your AI model prompt.
+5. The model responds using both the new input and past memories.
+
+This gives your AI **long-term, evolving context**.
+
+---
+
+## Writing good search queries
+
+The quality of retrieval depends heavily on your query.
+
+Bad query:
+```
+"coffee123"
+```
+
+Good query:
+```
+"What drinks does the user like?"
+```
+
+Better query:
+```
+"User beverage preferences and ordering habits"
+```
+
+Always write queries in natural language.
+
+---
+
+## Understanding `rawMatches`
+
+Azen returns two things:
+
+* `memories` – Your actual memory objects.
+* `rawMatches` – Raw vector search results with scores.
+
+Use `rawMatches` if you want:
+
+* Similarity scores
+* Debugging information
+* Custom ranking or filtering logic
+
+For most apps, you'll primarily use `memories`.
+
+---
+
+## Tuning `topK`
+
+The `topK` value controls how many memories are returned.
+
+Recommended usage:
+
+* 3–5 → For injecting into LLM prompts
+* 5–10 → For dashboards or context previews
+* 10–20 → For deeper reasoning or internal tools
+* 20+ → Only when doing analysis or analytics
+
+Large values increase noise and cost, so keep it reasonable.
+
+---
+
+## Common mistakes to avoid
+
+Don't treat this like a keyword search.
+
+Avoid these mistakes:
+
+* Using very short or meaningless queries
+* Storing huge text blocks as single memories
+* Over-fetching too many memories
+* Treating vector search like exact match search
+
+Instead, store clear, focused memories and query them the way a human would ask a question.
+
+---
+
+## How this enables long-term AI memory
+
+Without retrieval, your AI forgets everything outside the current prompt.
+
+With retrieval:
+
+* Your AI recalls past facts.
+* Your app maintains continuity across sessions.
+* You reduce prompt size while increasing context quality.
+
+This is what makes Azen a real memory system — not just a log database.
+
+---
+
+## Where to go next
+
+<Columns cols={2}>
+  <Card
+    title="API reference"
+    icon="code"
+    href="/api-reference/introduction"
+  >
+    Search endpoint documentation
+  </Card>
+  <Card
+    title="Quickstart"
+    icon="rocket"
+    href="/quickstart"
+  >
+    Integrate Azen into your system
+  </Card>
+</Columns>
+
+---

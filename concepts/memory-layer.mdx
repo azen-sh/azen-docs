@@ -1,0 +1,75 @@
+---
+title: Memory layer
+description: What the Azen memory layer is, why it exists, and how it works.
+---
+
+# What is the Memory Layer
+
+The memory layer is the core idea behind Azen:  
+a **persistent semantic memory system** for AI agents and AI-powered applications.
+
+Unlike normal databases that just store text or objects, a memory layer stores information in a way that models and agents can:
+
+- understand  
+- search semantically  
+- retrieve later for reasoning  
+
+Think of it as an **external brain** for your AI. It remembers things over time and helps your system build context, not just logs.
+
+---
+
+## Why a Memory Layer?
+
+Most AI applications today are **stateless**.  
+Your model only knows what is in the current prompt.
+
+This creates problems:
+
+- You re-send user data every time  
+- Prompts become huge and expensive  
+- The AI forgets things between sessions  
+
+Azen’s memory layer fixes this by giving your AI a **long-term semantic memory** instead of temporary context.
+
+---
+
+## How it works in Azen
+
+Azen stores memories using semantic embeddings and vector search.
+
+This means:
+
+1. You send text to Azen  
+2. Azen converts it into an embedding (vector)  
+3. That vector is stored and indexed  
+4. Later, you search by meaning, not keywords  
+
+So if a user says:
+
+> “I like cold brew coffee”
+
+A later query like:
+
+> “What drink does the user prefer?”
+
+will still match that memory, even if the wording is different.
+
+---
+
+## What is a Memory?
+
+A **memory** in Azen is one small, meaningful piece of information.
+It’s usually a single fact, preference, observation, or decision.
+
+Example structure:
+
+```json
+{
+  "id": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
+  "content": "User prefers cold brew coffee.",
+  "metadata": {
+    "dedupKey": "preference:coffee"
+  },
+  "createdAt": "2023-11-07T05:31:56Z",
+  "embedded": true
+}

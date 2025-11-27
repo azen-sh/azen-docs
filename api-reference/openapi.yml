@@ -101,6 +101,7 @@ paths:
   "/":
     get:
       summary: Health check
+      operationId: get-health-check
       security: []
       responses:
         "200":

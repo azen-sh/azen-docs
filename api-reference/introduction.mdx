@@ -1,33 +1,157 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "API Overview"
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+This section documents the **Azen HTTP API** for storing, retrieving, and searching memories.
 
-## Welcome
+If you're building AI agents or memory-aware applications, this is where you'll spend most of your time.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+---
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+## Base URL
+
+All API requests are made against:
+```http
+https://api.azen.sh/api/v1/
+```
+
+All endpoints in this section are relative to this base URL.
+
+---
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Azen uses **API key authentication**.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+Every request must include your API key in the headers:
+```http
+azen-api-key: YOUR_API_KEY
 ```
+
+### How authentication works
+
+* Each API key represents a **private namespace**.
+* All memories created using a key belong only to that namespace.
+* You don't manage users or sessions.
+* Azen automatically handles isolation and access control.
+
+### Example request
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.azen.sh/api/v1/memory \
+  --header 'Content-Type: application/json' \
+  --header 'azen-api-key: <api-key>' \
+  --data '{
+  "text": "User likes cold brew coffee",
+  "dedupKey": "preference:coffee"
+}'
+```
+
+</CodeGroup>
+
+### Authentication errors
+
+| Code  | Meaning             |
+| ----- | ------------------- |
+| `401` | API key missing     |
+| `403` | API key invalid     |
+| `429` | Rate limit exceeded |
+
+---
+
+## What the API allows you to do
+
+Using the Azen API, you can:
+
+* Store user or agent memories
+* Retrieve stored memories
+* Delete existing memories
+* Perform semantic search over stored memories
+
+---
+
+## Core endpoints
+
+These are the main API capabilities you'll work with:
+
+<Columns cols={2}>
+  <Card
+    title="Create memory"
+    icon="plus"
+    href="/api-reference/create-a-new-memory"
+  >
+    Store a new memory in your namespace.
+  </Card>
+  <Card
+    title="List memories"
+    icon="list"
+    href="/api-reference/list-user-memories"
+  >
+    List paginated memories for your API key.
+  </Card>
+  <Card
+    title="Get memory"
+    icon="database"
+    href="/api-reference/retrieve-a-memory-by-id"
+  >
+    Retrieve a memory by its ID.
+  </Card>
+  <Card
+    title="Delete memory"
+    icon="trash"
+    href="/api-reference/delete-a-memory"
+  >
+    Permanently delete a stored memory.
+  </Card>
+  <Card
+    title="Search memories"
+    icon="magnifying-glass"
+    href="/api-reference/search-user-memories"
+  >
+    Run semantic search across your memory store.
+  </Card>
+</Columns>
+
+---
+
+## Error format
+
+All errors returned by API follow a consistent structure:
+```json
+{
+  "status": "error",
+  "message": "error message",
+  "code": error code,
+  "details": {}
+}
+```
+
+### Common error codes
+
+| Code  | Meaning                              |
+| ----- | ------------------------------------ |
+| `400` | Invalid JSON or invalid request body |
+| `401` | Missing API key                      |
+| `403` | Invalid API key                      |
+| `429` | Rate limit exceeded                  |
+| `500` | Internal server error                |
+
+Validation errors may also include extra data in `details`.
+
+---
+
+## Security tips
+
+* Never expose your API key in frontend code
+* Use environment variables to store your key
+* Use different keys for staging and production
+* Rotate keys regularly
+
+---
+
+Azen is designed to be a low-friction memory layer.
+
+This reference exists so you can integrate quickly and correctly.
