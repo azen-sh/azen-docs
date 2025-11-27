@@ -436,7 +436,7 @@ paths:
                     status: success
                     deleted: false
                     memoryId: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
-                    message: "Memory not found"
+                    message: "Memory does not exist or was already deleted"
 
         "400":
           description: Invalid memory ID (not a UUID)
