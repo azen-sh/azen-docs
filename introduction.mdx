@@ -1,11 +1,54 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: Azen - Give your AI Memory
+subtitle: Azen Docs
+description: Azen is a memory layer for AI agents and applications.
+sidebarTitle: Overview
 ---
 
-## Setting up
+<img
+  src="/images/azen-hero.png"
+  alt="Description of image"
+/>
 
-Get your documentation site up and running in minutes.
+Azen is a **memory API** for AI agents and applications.
+
+Instead of wiring your own vector database, queues, and deduplication logic, Azen gives you a simple set of endpoints to:
+
+- **Store memories** for each user or agent  
+- **Search those memories** with semantic relevance  
+- **Deduplicate** repeated inputs using an optional `dedupKey`  
+- Keep everything **namespaced per user** for safety
+
+> Think of Azen as the _memory layer_ that sits between your model and your app.
+
+---
+
+## How it fits into your stack
+
+1. Your app or agent observes something important  
+2. You call **`POST /memory`** to store it  
+3. Azen queues an **embedding job** and persists the memory  
+4. Later, you call **`POST /memory/search`** with a natural-language query  
+5. Azen returns the **most relevant memories** to feed back into your model
+
+You don't manage indexes, embeddings, or vector stores – Azen does.
+
+---
+
+## Core primitive: Memory
+
+A **memory** is a small piece of text tied to a user:
+```json
+{
+  "id": "3c90c3cc-0d44-4b50-8888-8dd25736052a",
+  "content": "User prefers cold brew coffee.",
+  "metadata": {
+    "dedupKey": "preference:coffee"
+  },
+  "createdAt": "2023-11-07T05:31:56Z",
+  "embedded": true
+}
+```
 
 <Card
   title="Start here"
@@ -35,7 +78,7 @@ Design a docs site that looks great and empowers your users.
   >
     Customize the design and colors of your site to match your brand.
   </Card>
-    <Card
+  <Card
     title="Set up navigation"
     icon="map"
     href="/essentials/navigation"
