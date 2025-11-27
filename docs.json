@@ -8,6 +8,9 @@
       "method": "apiKey",
       "name": "azen-api-key",
       "placement": "header"
+    },
+    "examples": {
+      "languages": ["curl", "python", "node", "java"]
     }
   },
   "colors": {

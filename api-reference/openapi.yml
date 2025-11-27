@@ -54,15 +54,16 @@ components:
     CreateMemoryResponse:
       type: object
       properties:
-        ok:
-          type: boolean
+        status:
+          type: string
+          example: success
         memoryId:
           type: string
           format: uuid
         createdAt:
           type: string
           format: date-time
-        status:
+        embeddingStatus:
           type: string
           example: processing
 
@@ -138,10 +139,33 @@ paths:
               schema:
                 $ref: "#/components/schemas/CreateMemoryResponse"
               example:
-                ok: true
+                status: success
                 memoryId: "a1ed9d9e-44b3-4e7b-bc47-084c65a3e921"
                 createdAt: "2025-01-01T12:10:33.000Z"
-                status: processing
+                embeddingStatus: processing
+
+        "200":
+          description: Memory already exists (deduplication)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  memoryId:
+                    type: string
+                    format: uuid
+                  duplicated:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                status: success
+                memoryId: "a1ed9d9e-44b3-4e7b-bc47-084c65a3e921"
+                duplicated: true
+                message: "Memory already exists with this dedupKey"
 
         "400":
           description: Invalid JSON or invalid request body
@@ -223,6 +247,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  status:
+                    type: string
+                    example: success
                   memories:
                     type: array
                     items:
@@ -232,6 +259,7 @@ paths:
                   per:
                     type: integer
               example:
+                status: success
                 memories:
                   - id: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
                     content: "User likes cold brew coffee"
@@ -300,14 +328,25 @@ paths:
                   memory:
                     nullable: true
                     $ref: "#/components/schemas/Memory"
-              example:
-                status: success
-                memory:
-                  id: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
-                  content: "User likes cold brew coffee"
-                  metadata: {}
-                  createdAt: "2023-11-07T05:31:56Z"
-                  embedded: true
+                  message:
+                    type: string
+              examples:
+                found:
+                  summary: Memory found
+                  value:
+                    status: success
+                    memory:
+                      id: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+                      content: "User likes cold brew coffee"
+                      metadata: {}
+                      createdAt: "2023-11-07T05:31:56Z"
+                      embedded: true
+                not_found:
+                  summary: Memory not found
+                  value:
+                    status: success
+                    memory: null
+                    message: "Memory not found"
 
         "400":
           description: Invalid memory ID (not a UUID)
@@ -317,7 +356,7 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               example:
                 status: error
-                message: "Invalid memory Id"
+                message: "Invalid memory ID"
                 code: 400
 
         "401":
@@ -357,7 +396,7 @@ paths:
       summary: Delete a memory
       description: >
         Deletes the memory record and its vector embedding.
-        Returns deleted=false if memory does not exist.
+        Returns deleted=false if memory does not exist (idempotent behavior).
       parameters:
         - name: id
           in: path
@@ -381,13 +420,23 @@ paths:
                     type: boolean
                   memoryId:
                     type: string
-                  reason:
+                  message:
                     type: string
-                    example: memory_not_found
-              example:
-                status: success
-                deleted: true
-                memoryId: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+              examples:
+                deleted:
+                  summary: Memory deleted
+                  value:
+                    status: success
+                    deleted: true
+                    memoryId: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+                    message: "Memory deleted successfully"
+                not_found:
+                  summary: Memory not found
+                  value:
+                    status: success
+                    deleted: false
+                    memoryId: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
+                    message: "Memory not found"
 
         "400":
           description: Invalid memory ID (not a UUID)
@@ -397,7 +446,7 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
               example:
                 status: error
-                message: "Invalid memory Id"
+                message: "Invalid memory ID"
                 code: 400
 
         "401":
@@ -454,6 +503,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  status:
+                    type: string
+                    example: success
                   memories:
                     type: array
                     items:
@@ -464,6 +516,7 @@ paths:
                     items:
                       type: object
               example:
+                status: success
                 memories:
                   - id: "3c90c3cc-0d44-4b50-8888-8dd25736052a"
                     content: "User likes cold brew coffee"
