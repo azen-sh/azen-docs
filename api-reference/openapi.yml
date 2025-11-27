@@ -142,7 +142,7 @@ paths:
                 status: success
                 memoryId: "a1ed9d9e-44b3-4e7b-bc47-084c65a3e921"
                 createdAt: "2025-01-01T12:10:33.000Z"
-                embeddingStatus: processing
+                embedding: processing
 
         "200":
           description: Memory already exists (deduplication)
