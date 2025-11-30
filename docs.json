@@ -26,8 +26,8 @@
   },
   "fonts": {
     "heading": {
-      "family": "JetBrains Mono",
-      "weight": 700
+      "family": "Roboto",
+      "weight": 600
     },
     "body": {
       "family": "Inter",
