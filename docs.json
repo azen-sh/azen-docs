@@ -91,7 +91,7 @@
       "anchors": [
         {
           "anchor": "Dashboard",
-          "href": "https://console.azen.sh",
+          "href": "https://app.azen.sh",
           "icon": "window"
         },
         {
@@ -116,7 +116,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://console.azen.sh"
+      "href": "https://app.azen.sh"
     }
   },
   "contextual": {
