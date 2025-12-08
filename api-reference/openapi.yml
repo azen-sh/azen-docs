@@ -99,23 +99,6 @@ components:
 
 paths:
 
-  "/":
-    get:
-      summary: Health check
-      operationId: get-health-check
-      security: []
-      responses:
-        "200":
-          description: API is healthy
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: ok
-
   "/memory":
 
     post:

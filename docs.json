@@ -71,7 +71,6 @@
               {
                 "group": "Memory",
                 "pages": [
-                  "api-reference/health",
                   "POST /memory",
                   "GET /memory",
                   "GET /memory/{id}",
