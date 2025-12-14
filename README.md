@@ -1,43 +1,77 @@
-# Mintlify Starter Kit
+# Azen Documentation
 
-Use the starter kit to get your docs deployed and ready to customize.
+This repository contains the **official documentation** for **Azen** — a developer-first AI memory layer.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+The docs cover:
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+* Core concepts behind AI memory
+* Azen APIs and SDKs
+* Architecture and security principles
+* Practical examples and use cases
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
+The documentation is built using **Mintlify** and is published at:
 
-## Development
+👉 **[https://docs.azen.sh](https://docs.azen.sh)**
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
+---
 
-```
-npm i -g mint
-```
+## About Azen
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+Azen is an AI memory infrastructure that helps developers build stateful AI systems.
 
-```
-mint dev
-```
+It provides:
 
-View your local preview at `http://localhost:3000`.
+* Long-term memory storage for AI applications
+* Semantic retrieval using embeddings
+* Secure-by-default memory handling
+* Simple APIs for chatbots, agents, and SaaS products
 
-## Publishing changes
+The goal of these docs is clarity — explaining *how memory works*, *why design decisions were made*, and *how to use Azen correctly*.
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+---
 
-## Need help?
+## Repository Scope
 
-### Troubleshooting
+This repository contains **documentation only**.
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
+* Product code lives in a separate monorepo
+* APIs and dashboards are not defined here
+* This repo focuses purely on docs content and structure
 
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+---
+
+## Status
+
+The documentation is under active development.
+
+* Content may evolve as APIs stabilize
+* New guides and references are added continuously
+* Breaking changes are reflected promptly
+
+---
+
+## Philosophy
+
+* Explain concepts before features
+* Prefer correctness over hype
+* Show real usage, not toy examples
+* Treat memory and security as first-class topics
+
+---
+
+## Tooling
+
+This documentation site is powered by **Mintlify**.
+
+Content is written in Markdown / MDX and deployed automatically on updates to the default branch.
+
+---
+
+## Links
+
+* Docs: [https://docs.azen.sh](https://docs.azen.sh)
+* Website: [https://azen.sh](https://azen.sh)
+
+---
+
+Built for developers building serious AI systems.
