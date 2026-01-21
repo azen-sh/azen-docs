@@ -66,7 +66,7 @@
           },
           {
             "group": "Endpoints",
-            "openapi": "https://api.azen.sh/openapi.yaml",
+            "openapi": "https://app.stainless.com/api/spec/documented/azen/openapi.documented.yml",
             "pages": [
               {
                 "group": "Memory",
