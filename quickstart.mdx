@@ -1,226 +1,118 @@
 ---
 title: "Quickstart"
-description: "Store and retrieve your first memory with Azen in minutes"
+description: "Install the Azen SDK and store & retrieve your first memory in minutes"
 ---
 
-This quickstart shows you how to use Azen from scratch.
+This quickstart shows you how to get started with **Azen using the SDK**.
 
-You’ll:
-- **Create an API key**  
-- **Store your first memory**  
-- **Search it using natural language**  
+You'll:
+- **Install the Azen SDK**
+- **Create your first memory**
+- **Retrieve context using natural language**
 
 All in under 5 minutes.
 
 ---
 
-## Step 1: Get your API key
+<Steps>
+  <Step title="Get your API key">
+    Go to the Azen dashboard and create an API key:
 
-<AccordionGroup>
-  <Accordion icon="key" title="Create an API key" defaultOpen>
-    Go to the Azen dashboard:
+    👉 **https://app.azen.sh**
 
-    👉 https://app.azen.sh  
+    Copy your API key — you'll use it to initialize the SDK.
 
-    Create a new API key and copy it.  
-    You’ll use this key in all requests.
-  </Accordion>
+    <Info>
+      Your API key is securely sent with every request and is automatically scoped to your workspace, ensuring data isolation by default.
+    </Info>
+  </Step>
 
-  <Accordion icon="shield-check" title="How authentication works" defaultOpen>
-    Azen uses API key authentication.
-
-    Every request must include this header:
-
-    ```http
-    azen-api-key: YOUR_API_KEY
-    ```
-
-    Each API key is automatically namespaced to isolate user data securely.
-  </Accordion>
-</AccordionGroup>
-
----
-
-## Step 2: Store your first memory
-
-We’ll store a simple user preference.
-
-<AccordionGroup>
-  <Accordion
-    icon="database"
-    title="Send a memory to Azen"
-    defaultOpen
-  >
-    Use either cURL or TypeScript:
-
-    <Tabs>
-      <Tab title="cURL">
-      ```bash
-      curl -X POST https://api.azen.sh/api/v1/memory \
-        -H "Content-Type: application/json" \
-        -H "azen-api-key: YOUR_API_KEY" \
-        -d '{
-          "text": "User prefers cold brew coffee",
-          "dedupKey": "preference:coffee"
-        }'
+  <Step title="Install SDK">
+    <CodeGroup>
+      ```bash npm
+      npm install @azen-sh/sdk
       ```
-      </Tab>
+    </CodeGroup>
 
-      <Tab title="TypeScript">
-      ```ts
-      import fetch from "node-fetch";
+    Support for additional runtimes and languages is coming soon.
+  </Step>
 
-      const response = await fetch("https://api.azen.sh/api/v1/memory", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "azen-api-key": process.env.AZEN_API_KEY as string
-        },
-        body: JSON.stringify({
-          text: "User prefers cold brew coffee",
-          dedupKey: "preference:coffee"
-        })
+  <Step title="Set your API key">
+    <CodeGroup>
+      ```javascript JavaScript
+      import Azen from '@azen-sh/sdk';
+
+      const client = new Azen({
+        apiKey: process.env.AZEN_API_KEY,
+      });
+      ```
+    </CodeGroup>
+
+    That's it — no manual HTTP requests, headers, or fetch logic required.
+  </Step>
+
+  <Step title="Add a memory">
+    Store your first memory using natural language.
+
+    <CodeGroup>
+      ```javascript JavaScript
+      const response = await client.memory.create({
+        text: "I love hiking in the mountains",
+      });
+      ```
+    </CodeGroup>
+
+    ### What happens under the hood?
+
+    When you write data through the SDK:
+
+    1. The memory is stored in your private namespace
+    2. The content is automatically embedded
+    3. The memory becomes searchable without any extra work
+
+    You don't manage databases, embeddings, or background jobs.
+  </Step>
+
+  <Step title="Search memories">
+    Retrieve context using natural language queries.
+
+    <CodeGroup>
+      ```javascript JavaScript
+      const results = await client.memory.search({
+        query: "What outdoor activities does the user enjoy?",
       });
 
-      const data: {
-        ok: boolean;
-        memoryId: string;
-        createdAt: string;
-        status: "processing";
-      } = await response.json();
-
-      console.log(data);
+      console.log(results);
       ```
-      </Tab>
-    </Tabs>
-  </Accordion>
+    </CodeGroup>
 
-  <Accordion icon="clock" title="What happens after this?">
-    When you send a memory:
-
-    1. Azen stores it in your private namespace  
-    2. It queues the text for vector embedding  
-    3. The memory becomes searchable once embedding finishes  
-
-    You don’t manage any of this infrastructure.
-  </Accordion>
-</AccordionGroup>
-
----
-
-## Step 3: Search your memories
-
-Now let’s retrieve that memory using natural language.
-
-<AccordionGroup>
-  <Accordion
-    icon="magnifying-glass"
-    title="Search using natural language"
-    defaultOpen
-  >
-    Use your stored memories with semantic search:
-
-    <Tabs>
-      <Tab title="cURL">
-      ```bash
-      curl -X POST https://api.azen.sh/api/v1/memory/search \
-        -H "Content-Type: application/json" \
-        -H "azen-api-key: YOUR_API_KEY" \
-        -d '{
-          "query": "What kind of coffee does the user like?"
-        }'
-      ```
-      </Tab>
-
-      <Tab title="TypeScript">
-      ```ts
-      import fetch from "node-fetch";
-
-      const response = await fetch("https://api.azen.sh/api/v1/memory/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "azen-api-key": process.env.AZEN_API_KEY as string
-        },
-        body: JSON.stringify({
-          query: "What kind of coffee does the user like?"
-        })
-      });
-
-      type Memory = {
-        id: string;
-        content: string;
-        metadata?: Record<string, any> | null;
-        createdAt: string;
-        embedded: boolean;
-      };
-
-      const data: {
-        memories: Memory[];
-      } = await response.json();
-
-      console.log(data.memories);
-      ```
-      </Tab>
-    </Tabs>
-  </Accordion>
-
-  <Accordion icon="brain" title="How search works under the hood">
-    Azen embeds your query, compares it with your stored memories, and returns the most semantically relevant ones.
-
-    All embeddings, indexing, and vector search are handled for you automatically.
-  </Accordion>
-</AccordionGroup>
+    The SDK returns the most relevant memories, ready to be passed into an LLM, agent, or application workflow.
+  </Step>
+</Steps>
 
 ---
 
 ## Complete Semantic Memory Workflow
 
-You just completed a full semantic memory workflow:
+You just completed a full semantic memory workflow using the Azen SDK:
 
-1. **Created a memory**  
-2. **Triggered automatic embedding**  
-3. **Queried it using natural language**  
-4. **Retrieved meaningful results**  
+1. Got your API key
+2. Installed the SDK
+3. Stored structured context
+4. Retrieved it using natural language
 
-All without setting up any vector database or background workers.
+All without setting up a vector database or writing custom retrieval logic.
 
 ---
 
 ## Explore more
 
 <CardGroup cols={2}>
-
-<Card
-  title="Memory Layer"
-  icon="layer-group"
-  href="/concepts/memory-layer"
->
-  Learn how Azen works as a memory system for AI applications.
-</Card>
-
-<Card
-  title="Memory Retrieval"
-  icon="magnifying-glass"
-  href="/concepts/memory-retrieval"
->
-  Understand how Azen retrieves context for your models.
-</Card>
-
-<Card
-  title="API Reference"
-  icon="terminal"
-  href="/api-reference/introduction"
->
-  Full API documentation with errors and examples.
-</Card>
-
-<Card
-  title="Dashboard"
-  icon="window"
-  href="https://app.azen.sh"
->
-  Manage API keys and monitor your usage.
-</Card>
-
+  <Card title="API Reference" icon="terminal" href="/api-reference/introduction">
+    Low-level HTTP APIs for advanced use cases.
+  </Card>
+  
+  <Card title="Dashboard" icon="window" href="https://app.azen.sh">
+    Manage API keys and monitor usage.
+  </Card>
 </CardGroup>

@@ -18,7 +18,7 @@
   "background": {
     "color": {
       "light": "#FFFFFF",
-      "dark": "#000000"
+      "dark": "#0a0a0a"
     }
   },
   "fonts": {
@@ -70,6 +70,7 @@
             "pages": [
               {
                 "group": "Memory",
+                "expanded": true,
                 "pages": [
                   "POST /memory",
                   "GET /memory",
